@@ -1,0 +1,1622 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Module Ekonomi - Pengangguran</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(15, 76, 117, 0.1);
+    }
+    .btn-shadow {
+      box-shadow: 0 4px 15px rgba(240, 138, 93, 0.4);
+    }
+    .locked-overlay {
+      background: rgba(224, 224, 224, 0.9);
+    }
+    .tab-active {
+      background: #0F4C75;
+      color: white;
+    }
+    .tab-inactive {
+      background: rgba(15, 76, 117, 0.1);
+      color: #0F4C75;
+    }
+    .progress-bar {
+      background: linear-gradient(90deg, #F08A5D, #FFB347);
+    }
+    .wave-bg {
+      background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #ffffff 100%);
+    }
+    .header-gradient {
+      background: linear-gradient(135deg, #0F4C75 0%, #1a6da8 100%);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 15px rgba(240, 138, 93, 0.4); }
+      50% { box-shadow: 0 4px 25px rgba(240, 138, 93, 0.7); }
+    }
+    .pulse-btn {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+    .slide-enter {
+      animation: slideIn 0.4s ease-out;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="h-full bg-white">
+  <div id="app" class="h-full overflow-auto"><!-- Slide 1: Login -->
+   <div id="slide-login" class="min-h-full wave-bg flex flex-col">
+    <div class="flex-1 flex items-center justify-center p-6">
+     <div class="w-full max-w-md"><!-- Wave Decoration -->
+      <svg class="absolute top-0 left-0 w-full h-32 opacity-10" viewbox="0 0 1440 320" preserveaspectratio="none"><path fill="#0F4C75" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z" />
+      </svg>
+      <div class="relative z-10 text-center mb-8"><!-- School Logo Placeholder -->
+       <div class="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden card-shadow bg-white p-2"><img src="https://raw.githubusercontent.com/rifqi-dwiagustian/mencobauntuklulus/refs/heads/main/LOGO%20SMA%20HD%20(1).png" alt="Logo Sekolah" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full bg-gradient-to-br from-[#0F4C75] to-[#1a6da8] flex items-center justify-center\'><svg class=\'w-12 h-12 text-white\' fill=\'currentColor\' viewBox=\'0 0 24 24\'><path d=\'M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z\'/></svg></div>';">
+       </div>
+       <h1 id="school-name-display" class="text-2xl font-bold text-[#0F4C75] mb-2">SMAS Muhammadiyah 2 Mayong</h1>
+       <p id="module-title-display" class="text-lg text-[#0F4C75]/70 font-medium">E-Module Ekonomi: PENGANGGURAN</p>
+      </div>
+      <div class="bg-white rounded-[20px] p-8 card-shadow">
+       <div class="space-y-4">
+        <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">ID Pengguna</label> <input type="text" id="login-username" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none transition-colors" placeholder="Masukkan ID Pengguna">
+        </div>
+        <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">Password</label> <input type="password" id="login-password" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none transition-colors" placeholder="Masukkan Password">
+        </div>
+        <p id="login-error" class="text-red-500 text-sm hidden">ID atau Password salah!</p><button id="login-btn" class="w-full py-4 bg-[#F08A5D] text-white font-semibold rounded-[15px] btn-shadow hover:bg-[#e07a4d] transition-colors pulse-btn"> Masuk </button>
+       </div>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 2: Dashboard Siswa -->
+   <div id="slide-dashboard-siswa" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><!-- Header Card -->
+     <div class="header-gradient rounded-[20px] p-6 text-white mb-6 card-shadow">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+       <div>
+        <h2 class="text-xl font-bold">Halo, <span id="siswa-name">Siswa</span>! 👋</h2>
+       </div><button id="logout-siswa" class="px-4 py-2 bg-white/20 rounded-[10px] text-sm hover:bg-white/30 transition-colors"> Keluar </button>
+      </div>
+      <div class="mt-4">
+       <div class="flex justify-between text-sm mb-2"><span>Progress Belajar</span> <span id="progress-percent">0%</span>
+       </div>
+       <div class="h-3 bg-white/20 rounded-full overflow-hidden">
+        <div id="progress-bar" class="h-full progress-bar rounded-full transition-all duration-500" style="width: 0%"></div>
+       </div>
+      </div>
+     </div><!-- Menu Grid -->
+     <div class="space-y-4"><!-- Row 1: Presensi (Full Width) --> <button id="menu-presensi" class="w-full bg-[#F08A5D] text-white rounded-[20px] p-6 card-shadow hover:scale-[1.02] transition-transform">
+       <div class="flex items-center gap-4">
+        <div class="text-4xl">
+         📋
+        </div>
+        <div class="text-left">
+         <p class="font-semibold text-lg">Isi Presensi</p>
+         <p class="text-sm text-white/80 mt-1">Wajib diisi setiap pertemuan</p>
+        </div>
+       </div></button> <!-- Row 2: CP & TP + Materi -->
+      <div class="grid grid-cols-2 gap-4"><!-- CP & TP -->
+       <div id="menu-cptp" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-6 card-shadow disabled:opacity-50" disabled>
+         <div class="text-3xl mb-3">
+          🎯
+         </div><p class="font-semibold text-[#0F4C75]">CP &amp; TP</p><p class="text-xs text-gray-500 mt-1">Capaian Pembelajaran</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-4xl">🔒</span>
+        </div>
+       </div><!-- Materi -->
+       <div id="menu-materi" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-6 card-shadow disabled:opacity-50" disabled>
+         <div class="text-3xl mb-3">
+          📚
+         </div><p class="font-semibold text-[#0F4C75]">Materi</p><p class="text-xs text-gray-500 mt-1">Konten Pembelajaran</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-4xl">🔒</span>
+        </div>
+       </div>
+      </div><!-- Row 3: LKPD + Games -->
+      <div class="grid grid-cols-2 gap-4"><!-- LKPD -->
+       <div id="menu-lkpd" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-6 card-shadow disabled:opacity-50" disabled>
+         <div class="text-3xl mb-3">
+          📝
+         </div><p class="font-semibold text-[#0F4C75]">LKPD</p><p class="text-xs text-gray-500 mt-1">Lembar Kerja</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-4xl">🔒</span>
+        </div>
+       </div><!-- Games -->
+       <div id="menu-games" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-6 card-shadow disabled:opacity-50" disabled>
+         <div class="text-3xl mb-3">
+          🎮
+         </div><p class="font-semibold text-[#0F4C75]">Games</p><p class="text-xs text-gray-500 mt-1">Kuis Interaktif</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-4xl">🔒</span>
+        </div>
+       </div>
+      </div><!-- Row 4: Refleksi + Kartu Pengembang -->
+      <div class="grid grid-cols-2 gap-4"><!-- Refleksi -->
+       <div id="menu-refleksi" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-4 card-shadow disabled:opacity-50" disabled>
+         <div class="text-2xl mb-2">
+          💭
+         </div><p class="font-semibold text-[#0F4C75] text-sm">Refleksi</p><p class="text-xs text-gray-500 mt-1">Evaluasi Diri</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-3xl">🔒</span>
+        </div>
+       </div><!-- Kartu Pengembang -->
+       <div id="menu-pengembang" class="relative"><button class="menu-btn w-full bg-white rounded-[20px] p-4 card-shadow disabled:opacity-50" disabled>
+         <div class="text-2xl mb-2">
+          👤
+         </div><p class="font-semibold text-[#0F4C75] text-sm">Kartu Pengembang</p><p class="text-xs text-gray-500 mt-1">Tentang Pembuat</p></button>
+        <div class="lock-icon absolute inset-0 bg-[#E0E0E0]/90 rounded-[20px] flex items-center justify-center"><span class="text-3xl">🔒</span>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 3: Presensi -->
+   <div id="slide-presensi" class="min-h-full bg-gray-100 flex flex-col hidden">
+    <div class="flex-1 flex items-center justify-center p-6">
+     <div class="w-full max-w-md bg-white rounded-[20px] p-8 card-shadow"><button id="back-from-presensi" class="flex items-center text-[#0F4C75] mb-6 hover:text-[#F08A5D] transition-colors">
+       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+       </svg> Kembali </button>
+      <h2 class="text-2xl font-bold text-[#0F4C75] mb-6 text-center">📋 Isi Presensi</h2>
+      <div class="space-y-6">
+       <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">Pilih Tanggal</label> <input type="date" id="presensi-date" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none">
+       </div>
+       <div><label class="block text-sm font-medium text-[#0F4C75] mb-3">Bagaimana perasaanmu hari ini?</label>
+        <div class="flex justify-center gap-6"><button type="button" class="mood-btn text-4xl p-3 rounded-[15px] border-2 border-transparent hover:border-[#F08A5D] transition-all" data-mood="senang">😊</button> <button type="button" class="mood-btn text-4xl p-3 rounded-[15px] border-2 border-transparent hover:border-[#F08A5D] transition-all" data-mood="biasa">😐</button> <button type="button" class="mood-btn text-4xl p-3 rounded-[15px] border-2 border-transparent hover:border-[#F08A5D] transition-all" data-mood="sedih">😢</button>
+        </div>
+        <p id="selected-mood" class="text-center text-sm text-gray-500 mt-2">Pilih mood kamu</p>
+       </div>
+       <div><label class="block text-sm font-medium text-[#0F4C75] mb-3">Siap Belajar?</label>
+        <div class="flex gap-4"><label class="flex-1 cursor-pointer"> <input type="radio" name="ready" value="ya" class="hidden peer">
+          <div class="py-3 text-center rounded-[15px] border-2 border-[#E0E0E0] peer-checked:border-[#F08A5D] peer-checked:bg-[#F08A5D]/10 transition-all">
+           ✅ Ya, Siap!
+          </div></label> <label class="flex-1 cursor-pointer"> <input type="radio" name="ready" value="belum" class="hidden peer">
+          <div class="py-3 text-center rounded-[15px] border-2 border-[#E0E0E0] peer-checked:border-[#F08A5D] peer-checked:bg-[#F08A5D]/10 transition-all">
+           ⏳ Belum
+          </div></label>
+        </div>
+       </div><button id="submit-presensi" class="w-full py-4 bg-[#F08A5D] text-white font-semibold rounded-[15px] btn-shadow hover:bg-[#e07a4d] transition-colors"> 🔓 Kirim &amp; Buka Gembok Materi </button>
+      </div>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 4: Dashboard Guru -->
+   <div id="slide-dashboard-guru" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><!-- Header -->
+     <div class="header-gradient rounded-[20px] p-6 text-white mb-6 card-shadow">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+       <div>
+        <h2 class="text-xl font-bold">Selamat Datang, Bapak/Ibu Guru 👋</h2>
+        <p class="text-white/80 text-sm mt-1" id="guru-name-display">Panel Monitoring Pembelajaran</p>
+       </div><button id="logout-guru" class="px-4 py-2 bg-white/20 rounded-[10px] text-sm hover:bg-white/30 transition-colors"> Keluar </button>
+      </div>
+     </div><!-- Quick Stats -->
+     <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-[15px] p-4 card-shadow text-center">
+       <p class="text-3xl font-bold text-[#0F4C75]" id="stat-total">0</p>
+       <p class="text-xs text-gray-500">Total Siswa</p>
+      </div>
+      <div class="bg-white rounded-[15px] p-4 card-shadow text-center">
+       <p class="text-3xl font-bold text-[#F08A5D]" id="stat-hadir">0</p>
+       <p class="text-xs text-gray-500">Hadir Hari Ini</p>
+      </div>
+      <div class="bg-white rounded-[15px] p-4 card-shadow text-center">
+       <p class="text-3xl font-bold text-green-500" id="stat-rata">0</p>
+       <p class="text-xs text-gray-500">Rata-rata Nilai</p>
+      </div>
+     </div><!-- Tab Panel -->
+     <div class="bg-white rounded-[20px] card-shadow overflow-hidden"><!-- Tab Navigation -->
+      <div class="flex border-b border-gray-100 p-2 gap-2 overflow-x-auto"><button class="guru-tab tab-active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all" data-tab="presensi">Rekap Presensi</button> <button class="guru-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all" data-tab="nilai">Rekap Nilai</button> <button class="guru-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all" data-tab="refleksi">Rekap Refleksi</button> <button class="guru-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all" data-tab="akun">Manajemen Akun</button>
+      </div><!-- Tab Content -->
+      <div class="p-4"><!-- Rekap Presensi -->
+       <div id="tab-presensi" class="tab-content">
+        <h3 class="font-semibold text-[#0F4C75] mb-4">Data Presensi Siswa</h3>
+        <div class="overflow-x-auto">
+         <table class="w-full text-sm">
+          <thead class="bg-gray-50">
+           <tr>
+            <th class="px-4 py-3 text-left rounded-l-[10px]">Nama</th>
+            <th class="px-4 py-3 text-left">Tanggal</th>
+            <th class="px-4 py-3 text-left">Mood</th>
+            <th class="px-4 py-3 text-left rounded-r-[10px]">Kesiapan</th>
+           </tr>
+          </thead>
+          <tbody id="table-presensi" class="divide-y">
+           <tr>
+            <td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada data presensi</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div><!-- Rekap Nilai -->
+       <div id="tab-nilai" class="tab-content hidden">
+        <h3 class="font-semibold text-[#0F4C75] mb-4">Data Nilai Siswa</h3>
+        <div class="overflow-x-auto">
+         <table class="w-full text-sm">
+          <thead class="bg-gray-50">
+           <tr>
+            <th class="px-4 py-3 text-left rounded-l-[10px]">Nama</th>
+            <th class="px-4 py-3 text-center">Game 1</th>
+            <th class="px-4 py-3 text-center">Game 2</th>
+            <th class="px-4 py-3 text-center rounded-r-[10px]">Total</th>
+           </tr>
+          </thead>
+          <tbody id="table-nilai" class="divide-y">
+           <tr>
+            <td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada data nilai</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div><!-- Rekap Refleksi -->
+       <div id="tab-refleksi" class="tab-content hidden">
+        <h3 class="font-semibold text-[#0F4C75] mb-4">Data Refleksi Siswa</h3>
+        <div id="refleksi-list" class="space-y-4">
+         <p class="text-center text-gray-400 py-8">Belum ada data refleksi</p>
+        </div>
+       </div><!-- Manajemen Akun -->
+       <div id="tab-akun" class="tab-content hidden">
+        <div class="flex justify-between items-center mb-4">
+         <h3 class="font-semibold text-[#0F4C75]">Daftar Akun Siswa</h3><button id="btn-tambah-siswa" class="flex items-center gap-2 px-4 py-2 bg-[#F08A5D] text-white rounded-[10px] text-sm hover:bg-[#e07a4d] transition-colors"> <span>+</span> Tambah Siswa </button>
+        </div>
+        <div class="overflow-x-auto">
+         <table class="w-full text-sm">
+          <thead class="bg-gray-50">
+           <tr>
+            <th class="px-4 py-3 text-left rounded-l-[10px]">Username</th>
+            <th class="px-4 py-3 text-left">Nama</th>
+            <th class="px-4 py-3 text-left">Password</th>
+            <th class="px-4 py-3 text-center rounded-r-[10px]">Aksi</th>
+           </tr>
+          </thead>
+          <tbody id="table-akun" class="divide-y">
+           <tr>
+            <td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada akun siswa</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Modal Tambah Siswa -->
+   <div id="modal-tambah-siswa" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden z-50">
+    <div class="bg-white rounded-[20px] p-6 w-full max-w-md card-shadow">
+     <h3 class="text-xl font-bold text-[#0F4C75] mb-4">Tambah Siswa Baru</h3>
+     <div class="space-y-4">
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">Username</label> <input type="text" id="new-username" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none">
+      </div>
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">Nama Lengkap</label> <input type="text" id="new-name" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none">
+      </div>
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">Password</label> <input type="text" id="new-password" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none">
+      </div>
+      <div class="flex gap-3 mt-6"><button id="cancel-tambah" class="flex-1 py-3 border-2 border-[#E0E0E0] rounded-[15px] font-medium hover:bg-gray-50 transition-colors">Batal</button> <button id="confirm-tambah" class="flex-1 py-3 bg-[#F08A5D] text-white rounded-[15px] font-medium hover:bg-[#e07a4d] transition-colors">Simpan</button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Slide 5: Materi -->
+   <div id="slide-materi" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><button id="back-from-materi" class="flex items-center text-[#0F4C75] mb-4 hover:text-[#F08A5D] transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali ke Dashboard </button>
+     <h2 class="text-2xl font-bold text-[#0F4C75] mb-6">📚 Materi Pengangguran</h2><!-- Tab Navigation -->
+     <div class="flex gap-2 mb-6 overflow-x-auto pb-2"><button class="materi-tab tab-active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="definisi">Definisi</button> <button class="materi-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="penyebab">Penyebab</button> <button class="materi-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="jenis">Jenis</button> <button class="materi-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="dampak">Dampak</button> <button class="materi-tab tab-inactive px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-tab="solusi">Solusi</button>
+     </div><!-- Content Areas -->
+     <div class="bg-white rounded-[20px] p-6 card-shadow mb-6">
+      <div id="materi-definisi" class="materi-content slide-enter">
+       <h3 class="text-lg font-bold text-[#0F4C75] mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D]/20 rounded-full flex items-center justify-center text-[#F08A5D]">📖</span> Definisi Pengangguran</h3>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Pengangguran adalah bagian dari angkatan kerja yang tidak memiliki pekerjaan atau sedang berusaha mencari pekerjaan. Seseorang dikatakan menganggur apabila ia sebenarnya siap dan mampu bekerja, tetapi belum memperoleh pekerjaan yang sesuai.</p>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Pengangguran dapat terjadi ketika jumlah tenaga kerja yang tersedia lebih besar dibandingkan dengan jumlah lapangan pekerjaan yang ada. Kondisi ini menyebabkan tidak semua orang yang ingin bekerja dapat terserap ke dalam dunia kerja. Untuk mengukur tingkat pengangguran dapat digunakan formula sebagai berikut.</p>
+       <div class="bg-[#0F4C75]/5 rounded-[15px] p-4">
+        <p class="text-center text-[#0F4C75] font-medium">Tingkat Pengangguran = <span class="font-semibold">(Jumlah Penganggur) / (Jumlah Angkatan Kerja) × 100%</span></p>
+       </div>
+      </div>
+      <div id="materi-penyebab" class="materi-content hidden">
+       <h3 class="text-lg font-bold text-[#0F4C75] mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D]/20 rounded-full flex items-center justify-center text-[#F08A5D]">🔍</span> Penyebab Pengangguran</h3>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Pengangguran tidak terjadi begitu saja, tetapi dipengaruhi oleh berbagai faktor yang saling berkaitan. Berikut beberapa penyebab utama terjadinya pengangguran.</p>
+       <div class="space-y-4">
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">1. Pertumbuhan Penduduk yang Cepat</p>
+         <p class="text-sm text-gray-700 text-justify">Pertumbuhan penduduk yang berlangsung cepat menyebabkan jumlah angkatan kerja terus meningkat setiap tahunnya. Apabila peningkatan jumlah tenaga kerja tersebut tidak diimbangi dengan perluasan kesempatan kerja, maka akan muncul banyak pengangguran karena lapangan pekerjaan yang tersedia tidak mampu menampung seluruh pencari kerja.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">2. Ketidaksesuaian Kualifikasi Tenaga Kerja</p>
+         <p class="text-sm text-gray-700 text-justify">Pengangguran juga terjadi ketika angkatan kerja tidak memenuhi kualifikasi yang dibutuhkan oleh dunia kerja. Perusahaan umumnya menetapkan persyaratan tertentu seperti tingkat pendidikan, keterampilan, dan pengalaman kerja. Ketika angkatan kerja tidak mampu memenuhi persyaratan tersebut, mereka akan kesulitan memperoleh pekerjaan.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">3. Perkembangan Teknologi yang Tidak Diimbangi Peningkatan Pengetahuan dan Keterampilan</p>
+         <p class="text-sm text-gray-700 text-justify">Perkembangan teknologi yang semakin maju menuntut tenaga kerja untuk memiliki pengetahuan dan keterampilan yang sesuai. Apabila perkembangan teknologi tidak diikuti oleh peningkatan pengetahuan dan keterampilan para pencari kerja, maka banyak tenaga kerja yang tersingkir dan berpotensi menjadi penganggur.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">4. Ketidaksesuaian Tingkat Upah</p>
+         <p class="text-sm text-gray-700 text-justify">Pengangguran dapat terjadi karena tidak adanya kecocokan antara tingkat upah yang diharapkan pencari kerja dan kemampuan perusahaan dalam membayar upah. Tidak semua perusahaan mampu atau bersedia memberikan upah sesuai dengan yang diinginkan pelamar, sehingga proses penerimaan tenaga kerja tidak berjalan.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">5. Rendahnya Kemauan Berwirausaha</p>
+         <p class="text-sm text-gray-700 text-justify">Sebagian pengangguran terjadi karena kurangnya kemauan untuk berwirausaha. Angkatan kerja yang tidak memiliki motivasi untuk menciptakan usaha sendiri cenderung hanya menunggu kesempatan kerja dari pihak lain. Kondisi ini menyebabkan ketergantungan pada lapangan kerja yang tersedia dan memperbesar jumlah pengangguran.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">6. Ketidakberhasilan Sektor Industri</p>
+         <p class="text-sm text-gray-700 text-justify">Ketidakberhasilan sektor industri dalam menyerap tenaga kerja juga menjadi penyebab pengangguran. Pola investasi yang berkembang cenderung padat modal, yaitu lebih mengutamakan penggunaan mesin dan teknologi dibandingkan tenaga kerja manusia. Akibatnya, penyerapan tenaga kerja menjadi semakin terbatas.</p>
+        </div>
+        <div class="bg-gray-50 rounded-[15px] p-4">
+         <p class="font-semibold text-[#0F4C75] mb-2">7. Ketidakstabilan Kondisi Ekonomi, Politik, dan Keamanan</p>
+         <p class="text-sm text-gray-700 text-justify">Ketidakstabilan kondisi ekonomi, politik, dan keamanan negara dapat memicu terjadinya pengangguran. Salah satu contoh nyata adalah krisis ekonomi pada pertengahan tahun 1997 yang menyebabkan banyak perusahaan gulung tikar dan mengakibatkan sekitar 15,4 juta orang kehilangan pekerjaan. Kondisi serupa dapat terjadi ketika perekonomian nasional mengalami tekanan yang berat.</p>
+        </div>
+       </div>
+      </div>
+      <div id="materi-jenis" class="materi-content hidden">
+       <h3 class="text-lg font-bold text-[#0F4C75] mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D]/20 rounded-full flex items-center justify-center text-[#F08A5D]">📋</span> Jenis-Jenis Pengangguran</h3>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Secara garis besar, jenis pengangguran dapat dibedakan menjadi dua yaitu pengangguran berdasarkan lamanya waktu bekerja dan pengangguran berdasarkan penyebab terjadinya.</p>
+       <div class="space-y-4">
+        <div class="bg-[#0F4C75]/5 rounded-[15px] p-4">
+         <p class="font-bold text-[#0F4C75] mb-3">1. Pengangguran Berdasarkan Lamanya Waktu Bekerja</p>
+         <p class="text-sm text-gray-700 mb-4 text-justify">Berdasarkan lamanya waktu bekerja, pengangguran dapat diklasifikasikan menjadi beberapa jenis sebagai berikut.</p>
+         <div class="space-y-4">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">a. Pengangguran Terbuka</p>
+           <p class="text-sm text-gray-700 mb-3 text-justify">Pengangguran terbuka adalah angkatan kerja yang sama sekali tidak memiliki pekerjaan. Kelompok ini tidak melakukan aktivitas kerja apa pun yang menghasilkan pendapatan. Contoh pengangguran terbuka adalah lulusan sekolah atau perguruan tinggi yang belum mendapatkan pekerjaan setelah menyelesaikan pendidikannya.</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Menurut Badan Pusat Statistik (BPS), pengangguran terbuka mencakup beberapa kelompok, yaitu:</p>
+           <ul class="text-sm text-gray-700 space-y-1 ml-4">
+            <li>• Orang yang tidak memiliki pekerjaan dan sedang mencari pekerjaan,</li>
+            <li>• Orang yang tidak memiliki pekerjaan dan sedang mempersiapkan usaha,</li>
+            <li>• Orang yang tidak memiliki pekerjaan dan tidak mencari pekerjaan karena merasa sulit atau tidak mungkin memperoleh pekerjaan,</li>
+            <li>• Orang yang sudah diterima bekerja, tetapi belum mulai bekerja.</li>
+           </ul>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">b. Setengah Penganggur</p>
+           <p class="text-sm text-gray-700 mb-3 text-justify">Setengah penganggur adalah angkatan kerja yang sudah memiliki pekerjaan, tetapi belum bekerja secara optimal yaitu bekerja di bawah jam kerja normal (kurang dari 35 jam dalam seminggu). Contoh setengah penganggur dapat ditemukan pada petani yang hanya bekerja secara aktif pada musim tanam dan panen, sedangkan pada masa tunggu mereka tidak bekerja.</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Setengah penganggur dapat dibedakan menjadi dua jenis, yaitu setengah penganggur terpaksa dan setengah penganggur sukarela.</p>
+           <div class="ml-4 space-y-3 mt-3">
+            <div class="bg-gray-50 rounded-[10px] p-3">
+             <p class="font-semibold text-[#0F4C75] text-sm mb-2">1). Setengah Penganggur Terpaksa</p>
+             <p class="text-sm text-gray-700 mb-2 text-justify">Setengah menganggur terpaksa adalah angkatan kerja yang bekerja kurang dari 35 jam seminggu dan masih mencari pekerjaan lain atau bersedia menerima pekerjaan tambahan. Hal ini terjadi karena upah atau pendapatan yang diperoleh dari pekerjaan utama belum sesuai dengan harapan atau kebutuhan hidup.</p>
+             <p class="text-sm text-gray-700 text-justify">Sebagai contoh, seorang peserta didik yang bekerja paruh waktu sebagai pelayan kafe selama 5 jam per hari. Meskipun sudah bekerja, ia masih berkeinginan memperoleh pekerjaan lain untuk menambah penghasilan.</p>
+            </div>
+            <div class="bg-gray-50 rounded-[10px] p-3">
+             <p class="font-semibold text-[#0F4C75] text-sm mb-2">2). Setengah Penganggur Sukarela</p>
+             <p class="text-sm text-gray-700 mb-2 text-justify">Setengah menganggur sukarela adalah angkatan kerja yang bekerja di bawah jam kerja normal, tetapi tidak mencari pekerjaan lain dan tidak bersedia menerima pekerjaan tambahan. Kondisi ini biasanya terjadi karena pendapatan yang diperoleh sudah dianggap cukup atau karena sifat pekerjaannya memang tidak menuntut jam kerja penuh.</p>
+             <p class="text-sm text-gray-700 text-justify">Contohnya adalah seorang tenaga ahli yang hanya bekerja pada waktu-waktu tertentu, atau seseorang yang memiliki usaha indekos sebagai sumber penghasilan utama sehingga tidak perlu bekerja penuh waktu.</p>
+            </div>
+           </div>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">c. Pengangguran Terselubung</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Pengangguran terselubung adalah angkatan kerja yang sudah bekerja, tetapi pekerjaan yang dilakukan tidak sesuai dengan latar belakang pendidikan, bakat, atau kemampuan yang dimiliki. Akibatnya, potensi tenaga kerja tersebut tidak dimanfaatkan secara maksimal.</p>
+           <p class="text-sm text-gray-700 text-justify">Contohnya adalah seorang sarjana hukum yang bekerja sebagai customer service di bank. Pekerjaan tersebut tidak sepenuhnya mencerminkan kompetensi keilmuan yang dimiliki sehingga keahlian hukumnya tidak dimanfaatkan secara optimal.</p>
+          </div>
+         </div>
+        </div>
+        <div class="bg-[#F08A5D]/5 rounded-[15px] p-4 mt-4">
+         <p class="font-bold text-[#0F4C75] mb-3">2. Pengangguran Berdasarkan Penyebabnya</p>
+         <p class="text-sm text-gray-700 mb-4 text-justify">Berdasarkan penyebab terjadinya, pengangguran dapat diklasifikasikan menjadi beberapa jenis sebagai berikut.</p>
+         <div class="space-y-4">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">a. Pengangguran Struktural</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Pengangguran struktural terjadi akibat perubahan struktur ekonomi suatu negara. Misalnya, perubahan dari negara yang berstruktur pertanian/agraris menjadi negara industri.</p>
+           <p class="text-sm text-gray-700 text-justify">Perubahan ini menyebabkan sebagian tenaga kerja, seperti petani, kehilangan pekerjaan karena tidak memiliki keterampilan yang sesuai dengan kebutuhan sektor industri. Dengan kata lain, pengangguran ini muncul karena ketidaksesuaian antara keahlian tenaga kerja dan jenis pekerjaan yang tersedia.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">b. Pengangguran Friksional</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Pengangguran friksional adalah pengangguran yang terjadi karena adanya waktu tunggu antara seseorang berhenti dari satu pekerjaan dan mendapatkan pekerjaan baru. Pengangguran ini dapat disebabkan oleh beberapa hal, antara lain:</p>
+           <ul class="text-sm text-gray-700 space-y-1 ml-4">
+            <li>• Kurangnya informasi mengenai lowongan pekerjaan,</li>
+            <li>• Keinginan untuk mendapatkan pekerjaan dengan gaji atau kondisi kerja yang lebih baik,</li>
+            <li>• Proses rekrutmen yang memerlukan waktu cukup lama.</li>
+           </ul>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">c. Pengangguran Siklis</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Pengangguran siklis adalah jenis pengangguran yang terjadi akibat penurunan aktivitas ekonomi yang berkaitan dengan siklus bisnis. Ketika kondisi perekonomian mengalami penurunan, kegiatan produksi ikut berkurang sehingga perusahaan menghadapi penurunan pendapatan atau bahkan kerugian.</p>
+           <p class="text-sm text-gray-700 text-justify">Dalam kondisi tersebut, perusahaan akan mengurangi penggunaan faktor produksi, termasuk tenaga kerja. Akibatnya, sebagian karyawan terpaksa diberhentikan. Contoh pengangguran siklis dapat dilihat pada karyawan yang terkena Pemutusan Hubungan Kerja (PHK) karena pabrik atau perusahaan tempatnya bekerja mengalami penurunan kinerja usaha.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">d. Pengangguran Teknologi</p>
+           <p class="text-sm text-gray-700 mb-2 text-justify">Pengangguran teknologi terjadi karena adanya perkembangan teknologi, terutama dalam bentuk mekanisasi dan penggunaan mesin modern yang menggantikan peran tenaga kerja. Mesin modern dianggap lebih praktis, cepat, dan produktif sehingga banyak perusahaan beralih menggunakan teknologi tersebut.</p>
+           <p class="text-sm text-gray-700 text-justify">Namun, untuk mengoperasikan mesin modern diperlukan tenaga kerja yang memiliki keahlian khusus. Tenaga kerja yang tidak memiliki keterampilan sesuai dengan perkembangan teknologi berisiko kehilangan pekerjaannya dan menjadi penganggur.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">e. Pengangguran Musiman</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran musiman adalah pengangguran yang terjadi secara berkala dan sangat dipengaruhi oleh perubahan musim. Jenis pengangguran ini umumnya terjadi pada sektor-sektor tertentu yang aktivitas kerjanya tidak berlangsung sepanjang tahun. Salah satu contoh pengangguran musiman terdapat pada sektor pertanian. Petani biasanya mengalami masa tunggu antara musim tanam dan musim panen, sehingga pada periode tertentu mereka tidak memiliki pekerjaan.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">f. Pengangguran Muda</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran muda adalah pengangguran yang dialami oleh generasi muda yang disebabkan oleh kurangnya keterampilan dan pengalaman kerja yang sesuai dengan kebutuhan dunia usaha dan industri.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">g. Pengangguran Tua</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran tua adalah pengangguran yang terjadi pada tenaga kerja yang berusia lanjut. Faktor usia menyebabkan seseorang mengalami penurunan kemampuan fisik maupun produktivitas, sehingga sulit bersaing di pasar tenaga kerja dan tidak dapat melanjutkan kariernya.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">h. Pengangguran yang Disebabkan oleh Isolasi Geografis</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran akibat isolasi geografis dialami oleh tenaga kerja yang tinggal di daerah terpencil dan jauh dari pusat kegiatan ekonomi. Keterbatasan akses transportasi, informasi, dan infrastruktur menyebabkan peluang kerja sangat terbatas, sehingga tenaga kerja kesulitan memperoleh pekerjaan.</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="materi-dampak" class="materi-content hidden">
+       <h3 class="text-lg font-bold text-[#0F4C75] mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D]/20 rounded-full flex items-center justify-center text-[#F08A5D]">⚠️</span> Dampak Pengangguran</h3>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Pengangguran tidak hanya berdampak pada individu yang mengalaminya, tetapi juga memengaruhi kondisi perekonomian dan kehidupan sosial masyarakat. Dampak pengangguran dapat dilihat dari berbagai aspek berikut.</p>
+       <div class="space-y-4"><!-- Dampak Perekonomian -->
+        <div class="bg-red-50 rounded-[15px] p-4">
+         <p class="font-bold text-red-700 mb-3">1. Dampak Pengangguran terhadap Perekonomian</p>
+         <div class="space-y-4">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">a. Permintaan Agregat Menurun</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran menyebabkan seseorang tidak memperoleh penghasilan untuk memenuhi kebutuhan hidup. Akibatnya, daya beli masyarakat menurun sehingga permintaan terhadap barang dan jasa secara keseluruhan ikut berkurang. Kondisi ini menimbulkan kelesuan dalam kegiatan produksi barang dan jasa di berbagai sektor ekonomi.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">b. Penawaran Agregat Menurun</p>
+           <p class="text-sm text-gray-700 text-justify">Menurunnya permintaan barang dan jasa mendorong produsen untuk mengurangi jumlah produksi. Pengurangan produksi tersebut menyebabkan penawaran secara keseluruhan menurun. Dampaknya, keuntungan produsen berkurang dan aktivitas ekonomi menjadi semakin melemah.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">c. Tingkat Upah Menurun</p>
+           <p class="text-sm text-gray-700 text-justify">Ketika kegiatan produksi menurun, produsen cenderung melakukan efisiensi biaya produksi, salah satunya dengan menekan tingkat upah tenaga kerja. Penurunan tingkat upah menyebabkan daya beli masyarakat semakin melemah sehingga masyarakat kesulitan memenuhi kebutuhan hidup secara layak.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">d. Tingkat Investasi Dalam Negeri Menurun</p>
+           <p class="text-sm text-gray-700 text-justify">Menurunnya daya beli masyarakat dan berkurangnya produksi menyebabkan minat investor untuk menanamkan modal ikut menurun. Investor cenderung menunda atau membatalkan rencana perluasan usaha karena prospek keuntungan yang tidak menjanjikan. Akibatnya, kegiatan investasi dalam negeri berkurang.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">e. Penerimaan Negara dari Sektor Pajak Berkurang</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran menyebabkan pendapatan nasional riil lebih rendah dibandingkan pendapatan nasional potensial. Selain itu, tingginya pengangguran menurunkan jumlah tenaga kerja yang bekerja di sektor formal sehingga penerimaan pajak penghasilan berkurang. Kondisi ini dapat menghambat proses pembangunan nasional karena negara memiliki keterbatasan dana.</p>
+          </div>
+         </div>
+        </div><!-- Dampak Kehidupan Sosial -->
+        <div class="bg-blue-50 rounded-[15px] p-4">
+         <p class="font-bold text-blue-700 mb-3">2. Dampak Pengangguran terhadap Kehidupan Sosial</p>
+         <div class="space-y-4">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">a. Angka Kemiskinan Meningkat</p>
+           <p class="text-sm text-gray-700 text-justify">Tidak adanya penghasilan menyebabkan masyarakat tidak mampu memenuhi kebutuhan hidup secara layak. Kondisi ini menjadi salah satu indikator kemiskinan. Semakin tinggi tingkat pengangguran, semakin besar pula jumlah penduduk miskin.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">b. Angka Kriminalitas Meningkat</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran dapat mendorong sebagian masyarakat melakukan berbagai cara untuk memperoleh penghasilan demi mempertahankan hidup. Dalam kondisi tertentu, hal ini dapat memicu tindakan kriminal, seperti pencurian atau penipuan. Akibatnya, tingkat kriminalitas meningkat dan menimbulkan keresahan dalam masyarakat.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">c. Biaya Sosial Meningkat</p>
+           <p class="text-sm text-gray-700 text-justify">Kegiatan ekonomi yang lesu dan tingginya pengangguran dapat menimbulkan ketidakpuasan masyarakat terhadap kinerja pemerintah. Ketidakpuasan ini berpotensi meningkatkan biaya sosial, seperti meningkatnya konflik sosial dan ketegangan dalam kehidupan bermasyarakat.</p>
+          </div>
+         </div>
+        </div><!-- Dampak Individu dan Keluarga -->
+        <div class="bg-purple-50 rounded-[15px] p-4">
+         <p class="font-bold text-purple-700 mb-3">3. Dampak Pengangguran terhadap Individu dan Keluarga</p>
+         <div class="bg-white rounded-[12px] p-4">
+          <p class="text-sm text-gray-700 text-justify mb-3">Pengangguran dapat menimbulkan dampak psikologis bagi individu, seperti perasaan depresi, mudah tersinggung, serta lebih rentan terhadap pengaruh negatif dari lingkungan. Selain itu, pendidikan dan keahlian yang dimiliki seseorang menjadi tidak termanfaatkan. Dalam jangka waktu tertentu, profesionalisme dan keterampilan yang sebelumnya dimiliki dapat menurun, bahkan hilang, sehingga ketika seseorang kembali memasuki dunia kerja diperlukan pelatihan kembali.</p>
+          <p class="text-sm text-gray-700 text-justify">Di samping itu, pengangguran menyebabkan hilangnya pendapatan dan kesempatan untuk memperoleh kehidupan yang lebih baik. Terhentinya penghasilan sebagai sumber utama pemenuhan kebutuhan hidup dapat memicu berbagai permasalahan dalam keluarga, seperti tekanan ekonomi dan konflik rumah tangga. Kondisi tersebut juga berpotensi menurunkan harga diri individu di hadapan keluarga maupun lingkungan sosial.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div id="materi-solusi" class="materi-content hidden">
+       <h3 class="text-lg font-bold text-[#0F4C75] mb-4 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D]/20 rounded-full flex items-center justify-center text-[#F08A5D]">💡</span> Solusi Mengatasi Pengangguran</h3>
+       <p class="text-gray-700 leading-relaxed mb-4 text-justify">Upaya yang dapat dilakukan untuk mengatasi pengangguran secara umum sebagai berikut.</p>
+       <div class="space-y-4"><!-- Upaya Umum -->
+        <div class="bg-green-50 rounded-[15px] p-4">
+         <p class="font-bold text-green-700 mb-3">Upaya Umum Mengatasi Pengangguran</p>
+         <div class="space-y-3">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">a. Meningkatkan Kualitas Pendidikan</p>
+           <p class="text-sm text-gray-700 text-justify">Meningkatkan kualitas pendidikan sehingga lulusan memiliki kesiapan kerja dan keterampilan yang sesuai dengan kebutuhan dunia kerja.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">b. Pelatihan Keterampilan</p>
+           <p class="text-sm text-gray-700 text-justify">Meningkatkan kualitas tenaga kerja melalui pemberian pendidikan dan pelatihan keterampilan, baik melalui jalur pendidikan formal maupun nonformal.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">c. Kesempatan Kerja ke Luar Negeri</p>
+           <p class="text-sm text-gray-700 text-justify">Memberikan kesempatan kerja ke luar negeri melalui penyaluran Tenaga Kerja Indonesia (TKI) secara terencana dan terarah.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">d. Mendorong Usaha Kecil dan Industri Rumah Tangga</p>
+           <p class="text-sm text-gray-700 text-justify">Mendorong tumbuh dan berkembangnya usaha rumah tangga atau industri kecil sebagai alternatif penciptaan lapangan kerja.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">e. Program Keluarga Berencana (KB)</p>
+           <p class="text-sm text-gray-700 text-justify">Mengoptimalkan peran program Keluarga Berencana (KB) untuk menekan laju pertumbuhan penduduk sehingga peningkatan jumlah angkatan kerja dapat dikendalikan.</p>
+          </div>
+         </div>
+        </div><!-- Upaya Berdasarkan Jenis -->
+        <div class="bg-blue-50 rounded-[15px] p-4">
+         <p class="font-bold text-blue-700 mb-3">Upaya Mengatasi Berdasarkan Jenis Pengangguran</p>
+         <p class="text-sm text-gray-700 mb-4 text-justify">Selain upaya tersebut, pengangguran juga dapat diatasi melalui langkah-langkah yang disesuaikan dengan penyebab terjadinya sebagai berikut.</p>
+         <div class="space-y-4">
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">1. Pengangguran Struktural</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran struktural berkaitan dengan ketidakmampuan tenaga kerja dalam menyesuaikan diri terhadap perubahan struktur ekonomi. Untuk mengatasi pengangguran ini, upaya yang dapat dilakukan antara lain memberikan pelatihan kerja secara berkesinambungan, meningkatkan mobilitas modal dan tenaga kerja, memindahkan kelebihan tenaga kerja ke sektor ekonomi yang kekurangan tenaga kerja, serta mendirikan industri berbasis padat karya di wilayah yang mengalami tingkat pengangguran tinggi.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">2. Pengangguran Friksional</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran friksional berkaitan dengan terhambatnya arus informasi antara pencari kerja dan penyedia lapangan kerja. Upaya yang dapat dilakukan untuk mengatasi pengangguran ini antara lain melakukan deregulasi dan debirokratisasi di berbagai bidang industri untuk mendorong investasi baru, mengembangkan sektor informal seperti industri rumah tangga, serta menggiatkan pelaksanaan proyek umum seperti pembangunan jalan raya, jembatan, dan pembangkit listrik.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">3. Pengangguran Siklis</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran siklis berkaitan dengan kondisi ekonomi makro dan mikro, terutama menurunnya kegiatan ekonomi akibat penurunan permintaan agregat. Upaya untuk mengatasi pengangguran ini dapat dilakukan melalui kebijakan fiskal dan moneter. Dalam bidang fiskal, pemerintah dapat meningkatkan pengeluaran negara dalam bentuk investasi pemerintah untuk mendorong kegiatan ekonomi dan memperluas penyerapan tenaga kerja. Dalam bidang moneter, pemerintah dapat menambah jumlah uang beredar untuk meningkatkan daya beli masyarakat dan mendorong permintaan terhadap barang dan jasa.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">4. Pengangguran Teknologi</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran teknologi berkaitan dengan penggunaan mesin modern dalam proses produksi. Upaya untuk mengatasi pengangguran ini dapat dilakukan dengan memberikan pelatihan penggunaan mesin modern berstandar industri, memberikan informasi mengenai tempat atau lowongan kerja yang tersedia, serta menggalakkan program transmigrasi sebagai upaya pemerataan penduduk dan kesempatan kerja.</p>
+          </div>
+          <div class="bg-white rounded-[12px] p-4">
+           <p class="font-semibold text-[#0F4C75] mb-2">5. Pengangguran Musiman</p>
+           <p class="text-sm text-gray-700 text-justify">Pengangguran musiman berkaitan dengan pemanfaatan tenaga kerja pada masa jeda antara musim. Upaya yang dapat dilakukan antara lain memberikan informasi secara cepat mengenai lowongan kerja di sektor lain. Selain itu, tenaga kerja musiman dapat diberikan pelatihan keterampilan di bidang lain selama masa jeda tersebut.</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Download Card -->
+     <div class="bg-white rounded-[20px] p-4 card-shadow flex items-center gap-4">
+      <div class="w-12 h-12 bg-red-100 rounded-[12px] flex items-center justify-center">
+       <svg class="w-6 h-6 text-red-600" fill="currentColor" viewbox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+       </svg>
+      </div>
+      <div class="flex-1">
+       <p class="font-semibold text-[#0F4C75]">Modul Lengkap (PDF)</p>
+       <p class="text-sm text-gray-500">Unduh untuk pembelajaran offline</p>
+      </div><button id="download-pdf-btn" class="px-4 py-2 bg-[#F08A5D] text-white rounded-[10px] text-sm hover:bg-[#e07a4d] transition-colors"> 📥 Unduh </button>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 6: LKPD -->
+   <div id="slide-lkpd" class="min-h-full bg-gray-100 flex flex-col hidden">
+    <div class="flex-1 flex flex-col items-center justify-center p-6"><button id="back-from-lkpd" class="self-start flex items-center text-[#0F4C75] mb-6 hover:text-[#F08A5D] transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali ke Dashboard </button>
+     <h2 class="text-2xl font-bold text-[#0F4C75] mb-6">📝 Lembar Kerja Peserta Didik</h2><!-- Document Preview -->
+     <div class="bg-white rounded-[20px] p-8 card-shadow max-w-md w-full float-animation">
+      <div class="border-2 border-dashed border-gray-200 rounded-[15px] p-6 text-center">
+       <div class="w-20 h-24 mx-auto mb-4 bg-gradient-to-b from-gray-100 to-gray-200 rounded-lg flex items-center justify-center relative">
+        <div class="absolute top-0 right-0 w-6 h-6 bg-white border-l-2 border-b-2 border-gray-300" style="clip-path: polygon(100% 0, 0 100%, 100% 100%);"></div>
+        <svg class="w-8 h-8 text-[#0F4C75]" fill="currentColor" viewbox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z" />
+        </svg>
+       </div>
+       <p class="font-semibold text-[#0F4C75]">LKPD_Pengangguran.pdf</p>
+       <p class="text-sm text-gray-500 mt-1">Lembar kerja interaktif</p>
+      </div>
+     </div><button class="mt-6 px-8 py-4 bg-[#F08A5D] text-white font-semibold rounded-[15px] btn-shadow hover:bg-[#e07a4d] transition-colors flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+      </svg> Unduh LKPD </button>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 7: CP & TP -->
+   <div id="slide-cptp" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><button id="back-from-cptp" class="flex items-center text-[#0F4C75] mb-4 hover:text-[#F08A5D] transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali ke Dashboard </button>
+     <h2 class="text-2xl font-bold text-[#0F4C75] mb-6">🎯 Capaian &amp; Tujuan Pembelajaran</h2>
+     <div class="space-y-4">
+      <div class="bg-white rounded-[20px] p-6 card-shadow">
+       <h3 class="font-bold text-[#0F4C75] mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-[#0F4C75] text-white rounded-full flex items-center justify-center text-sm">CP</span> Capaian Pembelajaran</h3>
+       <p class="text-gray-700 leading-relaxed text-justify">Peserta didik diharapkan mampu memahami konsep tenaga kerja, angkatan kerja, kesempatan kerja, dan pengangguran sebagai bagian integral dari permasalahan ketenagakerjaan. Peserta didik mampu menganalisis berbagai jenis pengangguran, mengidentifikasi penyebab terjadinya pengangguran, serta menjelaskan dampaknya terhadap perekonomian dan kehidupan sosial masyarakat. Selain itu, peserta didik mampu mengidentifikasi permasalahan ketenagakerjaan yang terjadi di Indonesia dan merumuskan berbagai solusi yang dapat ditempuh, baik melalui kebijakan pemerintah maupun melalui inisiatif masyarakat.</p>
+      </div>
+      <div class="bg-white rounded-[20px] p-6 card-shadow">
+       <h3 class="font-bold text-[#0F4C75] mb-3 flex items-center gap-2"><span class="w-8 h-8 bg-[#F08A5D] text-white rounded-full flex items-center justify-center text-sm">TP</span> Tujuan Pembelajaran</h3>
+       <p class="text-gray-700 mb-4 italic">Setelah pembelajaran ini diharapkan murid mampu:</p>
+       <ul class="space-y-3 text-gray-700">
+        <li class="flex items-start gap-3"><span class="text-[#F08A5D] font-bold flex-shrink-0">1.</span><span class="text-justify">Menjelaskan pengertian pengangguran berdasarkan konsep ketenagakerjaan.</span></li>
+        <li class="flex items-start gap-3"><span class="text-[#F08A5D] font-bold flex-shrink-0">2.</span><span class="text-justify">Menganalisis faktor-faktor penyebab terjadinya pengangguran.</span></li>
+        <li class="flex items-start gap-3"><span class="text-[#F08A5D] font-bold flex-shrink-0">3.</span><span class="text-justify">Menjelaskan dan membedakan jenis-jenis pengangguran.</span></li>
+        <li class="flex items-start gap-3"><span class="text-[#F08A5D] font-bold flex-shrink-0">4.</span><span class="text-justify">Menganalisis dampak pengangguran terhadap perekonomian dan kehidupan sosial masyarakat.</span></li>
+        <li class="flex items-start gap-3"><span class="text-[#F08A5D] font-bold flex-shrink-0">5.</span><span class="text-justify">Menganalisis berbagai upaya yang dapat dilakukan untuk mengatasi pengangguran melalui peran pemerintah dan masyarakat.</span></li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 8: Games -->
+   <div id="slide-games" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><button id="back-from-games" class="flex items-center text-[#0F4C75] mb-4 hover:text-[#F08A5D] transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali ke Dashboard </button>
+     <h2 class="text-2xl font-bold text-[#0F4C75] mb-6">🎮 Games Edukatif</h2>
+     <div class="grid gap-4"><button id="start-game1" class="bg-white rounded-[20px] p-6 card-shadow text-left hover:scale-[1.02] transition-transform">
+       <div class="flex items-center gap-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-[#F08A5D] to-[#FFB347] rounded-[15px] flex items-center justify-center text-3xl">
+         🧠
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-[#0F4C75]">Game 1: Kuis Pilihan Ganda</h3>
+         <p class="text-sm text-gray-500">Uji pemahamanmu tentang pengangguran</p>
+         <p class="text-xs mt-1" id="game1-status"><span class="text-gray-400">Belum dimainkan</span></p>
+        </div>
+       </div></button> <button id="start-game2" class="bg-white rounded-[20px] p-6 card-shadow text-left hover:scale-[1.02] transition-transform">
+       <div class="flex items-center gap-4">
+        <div class="w-16 h-16 bg-gradient-to-br from-[#0F4C75] to-[#1a6da8] rounded-[15px] flex items-center justify-center text-3xl">
+         🎯
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-[#0F4C75]">Game 2: Cocokkan Pasangan</h3>
+         <p class="text-sm text-gray-500">Cocokkan jenis pengangguran dengan definisinya</p>
+         <p class="text-xs mt-1" id="game2-status"><span class="text-gray-400">Belum dimainkan</span></p>
+        </div>
+       </div></button>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide Game 1 -->
+   <div id="slide-game1" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6">
+     <div class="flex justify-between items-center mb-6"><button id="back-from-game1" class="flex items-center text-[#0F4C75] hover:text-[#F08A5D] transition-colors">
+       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+       </svg> Kembali </button>
+      <div class="bg-white px-4 py-2 rounded-full card-shadow"><span class="text-sm font-medium text-[#0F4C75]">Skor: <span id="game1-score">0</span>/100</span>
+      </div>
+     </div>
+     <div id="game1-container" class="bg-white rounded-[20px] p-6 card-shadow">
+      <div class="mb-4">
+       <div class="flex justify-between text-sm text-gray-500 mb-2"><span>Pertanyaan <span id="game1-current">1</span>/5</span> <span id="game1-timer">⏱️ 30s</span>
+       </div>
+       <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div id="game1-progress" class="h-full bg-[#F08A5D] rounded-full transition-all" style="width: 20%"></div>
+       </div>
+      </div>
+      <h3 id="game1-question" class="text-lg font-semibold text-[#0F4C75] mb-6">Pertanyaan akan muncul di sini...</h3>
+      <div id="game1-options" class="space-y-3"><!-- Options will be generated -->
+      </div>
+     </div>
+     <div id="game1-result" class="bg-white rounded-[20px] p-6 card-shadow hidden text-center">
+      <div class="text-6xl mb-4">
+       🎉
+      </div>
+      <h3 class="text-2xl font-bold text-[#0F4C75] mb-2">Selesai!</h3>
+      <p class="text-gray-600 mb-4">Skor akhir kamu:</p>
+      <p class="text-4xl font-bold text-[#F08A5D] mb-6" id="game1-final-score">0</p><button id="game1-finish" class="px-6 py-3 bg-[#F08A5D] text-white rounded-[15px] font-medium hover:bg-[#e07a4d] transition-colors"> Kembali ke Menu Games </button>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide Game 2 -->
+   <div id="slide-game2" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6">
+     <div class="flex justify-between items-center mb-6"><button id="back-from-game2" class="flex items-center text-[#0F4C75] hover:text-[#F08A5D] transition-colors">
+       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+       </svg> Kembali </button>
+      <div class="bg-white px-4 py-2 rounded-full card-shadow"><span class="text-sm font-medium text-[#0F4C75]">Cocok: <span id="game2-matches">0</span>/4</span>
+      </div>
+     </div>
+     <h2 class="text-xl font-bold text-[#0F4C75] mb-4 text-center">🎯 Cocokkan Jenis dengan Definisi</h2>
+     <div id="game2-container" class="grid md:grid-cols-2 gap-4">
+      <div>
+       <p class="text-sm font-medium text-gray-500 mb-2">Jenis Pengangguran:</p>
+       <div id="game2-types" class="space-y-2"><!-- Types will be generated -->
+       </div>
+      </div>
+      <div>
+       <p class="text-sm font-medium text-gray-500 mb-2">Definisi:</p>
+       <div id="game2-definitions" class="space-y-2"><!-- Definitions will be generated -->
+       </div>
+      </div>
+     </div>
+     <div id="game2-result" class="bg-white rounded-[20px] p-6 card-shadow hidden text-center mt-6">
+      <div class="text-6xl mb-4">
+       🏆
+      </div>
+      <h3 class="text-2xl font-bold text-[#0F4C75] mb-2">Hebat!</h3>
+      <p class="text-gray-600 mb-4">Kamu berhasil mencocokkan semua!</p>
+      <p class="text-4xl font-bold text-[#F08A5D] mb-6" id="game2-final-score">100</p><button id="game2-finish" class="px-6 py-3 bg-[#F08A5D] text-white rounded-[15px] font-medium hover:bg-[#e07a4d] transition-colors"> Kembali ke Menu Games </button>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 9: Refleksi -->
+   <div id="slide-refleksi" class="min-h-full bg-gray-50 flex flex-col hidden">
+    <div class="flex-1 p-4 md:p-6"><button id="back-from-refleksi" class="flex items-center text-[#0F4C75] mb-4 hover:text-[#F08A5D] transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg> Kembali ke Dashboard </button>
+     <h2 class="text-2xl font-bold text-[#0F4C75] mb-6">💭 Refleksi Pembelajaran</h2>
+     <div class="bg-white rounded-[20px] p-6 card-shadow space-y-6">
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">1. Apa yang kamu pelajari hari ini tentang pengangguran?</label> <textarea id="refleksi1" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none resize-none" rows="3" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">2. Bagian mana yang paling menarik menurutmu?</label> <textarea id="refleksi2" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none resize-none" rows="3" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div><label class="block text-sm font-medium text-[#0F4C75] mb-2">3. Apa yang ingin kamu pelajari lebih lanjut?</label> <textarea id="refleksi3" class="w-full px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] focus:border-[#0F4C75] focus:outline-none resize-none" rows="3" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div><button id="submit-refleksi" class="w-full py-4 bg-[#F08A5D] text-white font-semibold rounded-[15px] btn-shadow hover:bg-[#e07a4d] transition-colors"> Kirim Refleksi </button>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Slide 10: Kartu Pengembang -->
+   <div id="slide-pengembang" class="min-h-full bg-gray-100 flex flex-col hidden">
+    <div class="flex-1 flex items-center justify-center p-6">
+     <div class="w-full max-w-2xl"><button id="back-from-pengembang" class="flex items-center text-[#0F4C75] mb-6 hover:text-[#F08A5D] transition-colors">
+       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+       </svg> Kembali ke Dashboard </button>
+      <div class="bg-white rounded-[20px] p-8 card-shadow">
+       <div class="flex flex-col md:flex-row items-center gap-6"><!-- Photo Placeholder -->
+        <div class="w-32 h-32 rounded-[20px] flex-shrink-0 overflow-hidden card-shadow bg-white"><img src="https://raw.githubusercontent.com/rifqi-dwiagustian/mencobauntuklulus/refs/heads/main/IMG_20250307_140420_159.jpg" alt="Rifqi Dwi Agustian" class="w-full h-full object-cover rounded-[20px]" onerror="this.style.display='none';">
+        </div><!-- Info -->
+        <div class="text-center md:text-left">
+         <h2 class="text-2xl font-bold text-[#0F4C75] mb-2">Rifqi Dwi Agustian</h2>
+         <div class="space-y-1 text-gray-600">
+          <p class="flex items-center justify-center md:justify-start gap-2"><span class="text-[#F08A5D]">🎓</span> NIM: 7101422194</p>
+          <p class="flex items-center justify-center md:justify-start gap-2"><span class="text-[#F08A5D]">📧</span> rifqidwiagustian@students.unnes.ac.id</p>
+          <p class="flex items-center justify-center md:justify-start gap-2"><span class="text-[#F08A5D]">����️</span> Universitas Negeri Semarang</p>
+         </div>
+         <div class="mt-4 pt-4 border-t border-gray-100">
+          <p class="text-sm text-gray-500">Platform ini dirancang untuk mendukung pendekatan deep learning pada mata pelajaran ekonomi</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <footer class="py-4 text-center text-[#0F4C75]/60 text-sm">
+     <p>Dikembangkan oleh Rifqi Dwi Agustian</p>
+     <p>Universitas Negeri Semarang</p>
+    </footer>
+   </div><!-- Toast Notification -->
+   <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#0F4C75] text-white px-6 py-3 rounded-[15px] card-shadow hidden z-50 transition-all"><span id="toast-message">Pesan notifikasi</span>
+   </div>
+  </div>
+  <script>
+    // Materi Tab URLs
+    const materiPdfUrls = {
+      'definisi': 'https://bit.ly/49ibjh1',
+      'penyebab': 'https://bit.ly/3Lc9Wav',
+      'jenis': 'https://bit.ly/49yajUR',
+      'dampak': 'https://bit.ly/49PQMjT',
+      'solusi': 'https://bit.ly/4qPznNY'
+    };
+    
+    let currentMateriTab = 'definisi';
+    
+    // Application State
+    let currentUser = null;
+    let allData = [];
+    let selectedMood = null;
+    
+    // Default Config
+    const defaultConfig = {
+      school_name: 'SMAS Muhammadiyah 2 Mayong',
+      module_title: 'E-Module Ekonomi: PENGANGGURAN',
+      primary_color: '#0F4C75',
+      accent_color: '#F08A5D',
+      background_color: '#FFFFFF',
+      text_color: '#333333',
+      font_family: 'Poppins'
+    };
+    
+    // Reference Data - Initial accounts
+    const initialAccounts = [
+      { username: 'guru1', password: 'guru123', name: 'Bapak/Ibu Guru', role: 'guru' },
+      { username: 'siswa1', password: 'siswa123', name: 'Ahmad Siswa', role: 'siswa' }
+    ];
+    
+    // Game 1 Questions
+    const game1Questions = [
+      {
+        question: 'Apa definisi pengangguran?',
+        options: [
+          'Orang yang bekerja paruh waktu',
+          'Orang dalam angkatan kerja yang tidak memiliki pekerjaan dan sedang mencari kerja',
+          'Orang yang tidak mau bekerja',
+          'Orang yang sudah pensiun'
+        ],
+        correct: 1
+      },
+      {
+        question: 'Pengangguran yang terjadi karena pergantian pekerjaan disebut?',
+        options: ['Struktural', 'Siklikal', 'Friksional', 'Musiman'],
+        correct: 2
+      },
+      {
+        question: 'Apa dampak ekonomi dari pengangguran?',
+        options: [
+          'Meningkatnya pendapatan nasional',
+          'Menurunnya pendapatan nasional',
+          'Stabilnya ekonomi',
+          'Meningkatnya investasi'
+        ],
+        correct: 1
+      },
+      {
+        question: 'Solusi untuk mengatasi pengangguran adalah?',
+        options: [
+          'Mengurangi pendidikan',
+          'Menghapus lapangan kerja',
+          'Meningkatkan kualitas pendidikan dan pelatihan',
+          'Menghentikan investasi'
+        ],
+        correct: 2
+      },
+      {
+        question: 'Pengangguran akibat perubahan struktur ekonomi disebut?',
+        options: ['Friksional', 'Musiman', 'Siklikal', 'Struktural'],
+        correct: 3
+      }
+    ];
+    
+    // Game 2 Data
+    const game2Data = [
+      { type: 'Friksional', definition: 'Pengangguran sementara karena proses perpindahan kerja' },
+      { type: 'Struktural', definition: 'Akibat perubahan struktur ekonomi' },
+      { type: 'Siklikal', definition: 'Akibat siklus ekonomi (resesi)' },
+      { type: 'Musiman', definition: 'Terjadi pada waktu tertentu seperti sektor pertanian' }
+    ];
+    
+    // Game State
+    let game1State = { current: 0, score: 0, timer: null };
+    let game2State = { selected: null, matches: 0, matched: [] };
+    
+    // Data SDK Handler
+    const dataHandler = {
+      onDataChanged(data) {
+        allData = data;
+        updateUI();
+      }
+    };
+    
+    // Initialize SDK
+    async function initApp() {
+      // Initialize Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            document.getElementById('school-name-display').textContent = config.school_name || defaultConfig.school_name;
+            document.getElementById('module-title-display').textContent = config.module_title || defaultConfig.module_title;
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ['school_name', config.school_name || defaultConfig.school_name],
+            ['module_title', config.module_title || defaultConfig.module_title]
+          ])
+        });
+      }
+      
+      // Initialize Data SDK
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize Data SDK');
+        }
+      }
+      
+      setupEventListeners();
+    }
+    
+    // UI Update Functions
+    function updateUI() {
+      if (!currentUser) return;
+      
+      if (currentUser.role === 'siswa') {
+        updateSiswaUI();
+      } else if (currentUser.role === 'guru') {
+        updateGuruUI();
+      }
+    }
+    
+    function updateSiswaUI() {
+      const userData = allData.find(d => d.type === 'user' && d.username === currentUser.username);
+      
+      if (userData) {
+        document.getElementById('siswa-name').textContent = userData.name || currentUser.name;
+        
+        const hasAttended = userData.hasAttended;
+        const progress = userData.progress || 0;
+        
+        document.getElementById('progress-percent').textContent = `${progress}%`;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+        
+        if (hasAttended) {
+          unlockMenus();
+        }
+        
+        // Update game status
+        const game1StatusEl = document.getElementById('game1-status');
+        const game2StatusEl = document.getElementById('game2-status');
+        
+        if (userData.game1Score !== undefined && userData.game1Score !== null) {
+          game1StatusEl.innerHTML = `<span class="text-green-600">✓ Selesai - Skor: ${userData.game1Score}</span>`;
+        } else {
+          game1StatusEl.innerHTML = `<span class="text-gray-400">Belum dimainkan</span>`;
+        }
+        
+        if (userData.game2Score !== undefined && userData.game2Score !== null) {
+          game2StatusEl.innerHTML = `<span class="text-green-600">✓ Selesai - Skor: ${userData.game2Score}</span>`;
+        } else {
+          game2StatusEl.innerHTML = `<span class="text-gray-400">Belum dimainkan</span>`;
+        }
+        
+        // Prefill refleksi if exists
+        if (userData.reflection1) document.getElementById('refleksi1').value = userData.reflection1;
+        if (userData.reflection2) document.getElementById('refleksi2').value = userData.reflection2;
+        if (userData.reflection3) document.getElementById('refleksi3').value = userData.reflection3;
+      }
+    }
+    
+    function updateGuruUI() {
+      const users = allData.filter(d => d.type === 'user' && d.role === 'siswa');
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Stats
+      document.getElementById('stat-total').textContent = users.length;
+      document.getElementById('stat-hadir').textContent = users.filter(u => u.attendanceDate === today).length;
+      
+      const scores = users.filter(u => (u.game1Score || 0) + (u.game2Score || 0) > 0);
+      const avgScore = scores.length > 0 
+        ? Math.round(scores.reduce((sum, u) => sum + ((u.game1Score || 0) + (u.game2Score || 0)) / 2, 0) / scores.length)
+        : 0;
+      document.getElementById('stat-rata').textContent = avgScore;
+      
+      // Tables
+      updatePresensiTable(users);
+      updateNilaiTable(users);
+      updateRefleksiList(users);
+      updateAkunTable(users);
+    }
+    
+    function updatePresensiTable(users) {
+      const tbody = document.getElementById('table-presensi');
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada data presensi</td></tr>';
+        return;
+      }
+      
+      const attended = users.filter(u => u.hasAttended);
+      if (attended.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada data presensi</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = attended.map(u => `
+        <tr>
+          <td class="px-4 py-3">${u.name || '-'}</td>
+          <td class="px-4 py-3">${u.attendanceDate || '-'}</td>
+          <td class="px-4 py-3">${getMoodEmoji(u.mood)}</td>
+          <td class="px-4 py-3">${u.readyToLearn === 'ya' ? '✅ Siap' : '⏳ Belum'}</td>
+        </tr>
+      `).join('');
+    }
+    
+    function getMoodEmoji(mood) {
+      if (mood === 'senang') return '😊 Senang';
+      if (mood === 'biasa') return '😐 Biasa';
+      if (mood === 'sedih') return '😢 Sedih';
+      return '-';
+    }
+    
+    function updateNilaiTable(users) {
+      const tbody = document.getElementById('table-nilai');
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada data nilai</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = users.map(u => {
+        const game1 = u.game1Score !== undefined && u.game1Score !== null ? u.game1Score : '-';
+        const game2 = u.game2Score !== undefined && u.game2Score !== null ? u.game2Score : '-';
+        const total = (game1 !== '-' || game2 !== '-') 
+          ? ((game1 !== '-' ? game1 : 0) + (game2 !== '-' ? game2 : 0)) 
+          : '-';
+        
+        return `
+          <tr>
+            <td class="px-4 py-3">${u.name || '-'}</td>
+            <td class="px-4 py-3 text-center">${game1}</td>
+            <td class="px-4 py-3 text-center">${game2}</td>
+            <td class="px-4 py-3 text-center font-semibold">${total}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    function updateRefleksiList(users) {
+      const container = document.getElementById('refleksi-list');
+      const withRefleksi = users.filter(u => u.reflection1 || u.reflection2 || u.reflection3);
+      
+      if (withRefleksi.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-400 py-8">Belum ada data refleksi</p>';
+        return;
+      }
+      
+      container.innerHTML = withRefleksi.map(u => `
+        <div class="bg-gray-50 rounded-[15px] p-4">
+          <p class="font-semibold text-[#0F4C75] mb-3">${u.name || 'Siswa'}</p>
+          <div class="space-y-2 text-sm">
+            <p><strong>1. Yang dipelajari:</strong> ${u.reflection1 || '-'}</p>
+            <p><strong>2. Yang menarik:</strong> ${u.reflection2 || '-'}</p>
+            <p><strong>3. Ingin dipelajari:</strong> ${u.reflection3 || '-'}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function updateAkunTable(users) {
+      const tbody = document.getElementById('table-akun');
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-400">Belum ada akun siswa</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = users.map(u => `
+        <tr data-id="${u.__backendId}">
+          <td class="px-4 py-3">${u.username}</td>
+          <td class="px-4 py-3">${u.name || '-'}</td>
+          <td class="px-4 py-3">${u.password}</td>
+          <td class="px-4 py-3 text-center">
+            <button class="delete-user-btn text-red-500 hover:text-red-700" data-id="${u.__backendId}">🗑️</button>
+          </td>
+        </tr>
+      `).join('');
+      
+      // Add delete handlers
+      tbody.querySelectorAll('.delete-user-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const id = e.target.dataset.id;
+          const user = allData.find(d => d.__backendId === id);
+          if (user && window.dataSdk) {
+            const result = await window.dataSdk.delete(user);
+            if (result.isOk) {
+              showToast('Akun berhasil dihapus');
+            }
+          }
+        });
+      });
+    }
+    
+    function unlockMenus() {
+      const menus = ['menu-cptp', 'menu-materi', 'menu-lkpd', 'menu-games', 'menu-refleksi', 'menu-pengembang'];
+      menus.forEach(id => {
+        const menu = document.getElementById(id);
+        const lockIcon = menu.querySelector('.lock-icon');
+        const btn = menu.querySelector('.menu-btn');
+        if (lockIcon) lockIcon.classList.add('hidden');
+        if (btn) btn.disabled = false;
+      });
+    }
+    
+    // Navigation Functions
+    function showSlide(slideId) {
+      document.querySelectorAll('[id^="slide-"]').forEach(slide => {
+        slide.classList.add('hidden');
+      });
+      document.getElementById(slideId).classList.remove('hidden');
+    }
+    
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+    
+    // Login Handler
+    async function handleLogin() {
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      
+      if (!username || !password) {
+        document.getElementById('login-error').classList.remove('hidden');
+        return;
+      }
+      
+      // Check initial accounts first
+      const initialAccount = initialAccounts.find(a => a.username === username && a.password === password);
+      if (initialAccount) {
+        currentUser = { ...initialAccount };
+        
+        // Check if user exists in data
+        let userData = allData.find(d => d.type === 'user' && d.username === username);
+        
+        if (!userData && window.dataSdk) {
+          // Create user record
+          const result = await window.dataSdk.create({
+            type: 'user',
+            username: username,
+            password: password,
+            name: initialAccount.name,
+            role: initialAccount.role,
+            level: 1,
+            progress: 0,
+            hasAttended: false,
+            attendanceDate: '',
+            mood: '',
+            readyToLearn: '',
+            game1Score: null,
+            game2Score: null,
+            reflection1: '',
+            reflection2: '',
+            reflection3: ''
+          });
+          if (!result.isOk) {
+            showToast('Gagal menyimpan data');
+          }
+        }
+        
+        document.getElementById('login-error').classList.add('hidden');
+        
+        if (initialAccount.role === 'guru') {
+          showSlide('slide-dashboard-guru');
+        } else {
+          showSlide('slide-dashboard-siswa');
+        }
+        updateUI();
+        return;
+      }
+      
+      // Check database users
+      const dbUser = allData.find(d => d.type === 'user' && d.username === username && d.password === password);
+      if (dbUser) {
+        currentUser = { ...dbUser };
+        document.getElementById('login-error').classList.add('hidden');
+        
+        if (dbUser.role === 'guru') {
+          showSlide('slide-dashboard-guru');
+        } else {
+          showSlide('slide-dashboard-siswa');
+        }
+        updateUI();
+        return;
+      }
+      
+      document.getElementById('login-error').classList.remove('hidden');
+    }
+    
+    // Presensi Handler
+    async function handlePresensi() {
+      const date = document.getElementById('presensi-date').value;
+      const ready = document.querySelector('input[name="ready"]:checked')?.value;
+      
+      if (!date || !selectedMood || !ready) {
+        showToast('Lengkapi semua data presensi!');
+        return;
+      }
+      
+      const userData = allData.find(d => d.type === 'user' && d.username === currentUser.username);
+      
+      if (userData && window.dataSdk) {
+        const result = await window.dataSdk.update({
+          ...userData,
+          hasAttended: true,
+          attendanceDate: date,
+          mood: selectedMood,
+          readyToLearn: ready,
+          progress: Math.max(userData.progress || 0, 20)
+        });
+        
+        if (result.isOk) {
+          showToast('Presensi berhasil! Menu terbuka 🔓');
+          showSlide('slide-dashboard-siswa');
+        } else {
+          showToast('Gagal menyimpan presensi');
+        }
+      }
+    }
+    
+    // Game 1 Functions
+    function startGame1() {
+      game1State = { current: 0, score: 0, timer: null };
+      document.getElementById('game1-container').classList.remove('hidden');
+      document.getElementById('game1-result').classList.add('hidden');
+      showGame1Question();
+    }
+    
+    function showGame1Question() {
+      const q = game1Questions[game1State.current];
+      document.getElementById('game1-current').textContent = game1State.current + 1;
+      document.getElementById('game1-progress').style.width = `${((game1State.current + 1) / game1Questions.length) * 100}%`;
+      document.getElementById('game1-question').textContent = q.question;
+      document.getElementById('game1-score').textContent = game1State.score;
+      
+      const optionsContainer = document.getElementById('game1-options');
+      optionsContainer.innerHTML = q.options.map((opt, i) => `
+        <button class="game1-option w-full text-left px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] hover:border-[#F08A5D] transition-all" data-index="${i}">
+          ${String.fromCharCode(65 + i)}. ${opt}
+        </button>
+      `).join('');
+      
+      optionsContainer.querySelectorAll('.game1-option').forEach(btn => {
+        btn.addEventListener('click', (e) => handleGame1Answer(parseInt(e.target.dataset.index)));
+      });
+    }
+    
+    async function handleGame1Answer(index) {
+      const q = game1Questions[game1State.current];
+      const options = document.querySelectorAll('.game1-option');
+      
+      options.forEach(opt => opt.disabled = true);
+      
+      if (index === q.correct) {
+        game1State.score += 20;
+        options[index].classList.add('bg-green-100', 'border-green-500');
+      } else {
+        options[index].classList.add('bg-red-100', 'border-red-500');
+        options[q.correct].classList.add('bg-green-100', 'border-green-500');
+      }
+      
+      setTimeout(async () => {
+        game1State.current++;
+        if (game1State.current < game1Questions.length) {
+          showGame1Question();
+        } else {
+          // Game finished
+          document.getElementById('game1-container').classList.add('hidden');
+          document.getElementById('game1-result').classList.remove('hidden');
+          document.getElementById('game1-final-score').textContent = game1State.score;
+          
+          // Save score
+          const userData = allData.find(d => d.type === 'user' && d.username === currentUser.username);
+          if (userData && window.dataSdk) {
+            await window.dataSdk.update({
+              ...userData,
+              game1Score: game1State.score,
+              progress: Math.max(userData.progress || 0, 60)
+            });
+          }
+        }
+      }, 1000);
+    }
+    
+    // Game 2 Functions
+    function startGame2() {
+      game2State = { selected: null, matches: 0, matched: [] };
+      document.getElementById('game2-result').classList.add('hidden');
+      document.getElementById('game2-matches').textContent = '0';
+      
+      const shuffledTypes = [...game2Data].sort(() => Math.random() - 0.5);
+      const shuffledDefs = [...game2Data].sort(() => Math.random() - 0.5);
+      
+      document.getElementById('game2-types').innerHTML = shuffledTypes.map((item, i) => `
+        <button class="game2-type w-full text-left px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] hover:border-[#0F4C75] transition-all" data-type="${item.type}">
+          ${item.type}
+        </button>
+      `).join('');
+      
+      document.getElementById('game2-definitions').innerHTML = shuffledDefs.map((item, i) => `
+        <button class="game2-def w-full text-left px-4 py-3 rounded-[15px] border-2 border-[#E0E0E0] hover:border-[#F08A5D] transition-all text-sm" data-type="${item.type}">
+          ${item.definition}
+        </button>
+      `).join('');
+      
+      document.querySelectorAll('.game2-type').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.game2-type').forEach(b => b.classList.remove('border-[#0F4C75]', 'bg-[#0F4C75]/10'));
+          e.target.classList.add('border-[#0F4C75]', 'bg-[#0F4C75]/10');
+          game2State.selected = e.target.dataset.type;
+        });
+      });
+      
+      document.querySelectorAll('.game2-def').forEach(btn => {
+        btn.addEventListener('click', (e) => checkGame2Match(e.target.dataset.type, e.target));
+      });
+    }
+    
+    async function checkGame2Match(defType, defBtn) {
+      if (!game2State.selected || game2State.matched.includes(defType)) return;
+      
+      if (game2State.selected === defType) {
+        // Correct match
+        game2State.matches++;
+        game2State.matched.push(defType);
+        document.getElementById('game2-matches').textContent = game2State.matches;
+        
+        // Highlight matched
+        const typeBtn = document.querySelector(`.game2-type[data-type="${defType}"]`);
+        typeBtn.classList.add('bg-green-100', 'border-green-500');
+        typeBtn.disabled = true;
+        defBtn.classList.add('bg-green-100', 'border-green-500');
+        defBtn.disabled = true;
+        
+        if (game2State.matches === 4) {
+          // Game finished
+          document.getElementById('game2-result').classList.remove('hidden');
+          
+          // Save score
+          const userData = allData.find(d => d.type === 'user' && d.username === currentUser.username);
+          if (userData && window.dataSdk) {
+            await window.dataSdk.update({
+              ...userData,
+              game2Score: 100,
+              progress: Math.max(userData.progress || 0, 80)
+            });
+          }
+        }
+      } else {
+        // Wrong match
+        defBtn.classList.add('bg-red-100', 'border-red-500');
+        setTimeout(() => {
+          defBtn.classList.remove('bg-red-100', 'border-red-500');
+        }, 500);
+      }
+      
+      game2State.selected = null;
+      document.querySelectorAll('.game2-type').forEach(b => b.classList.remove('border-[#0F4C75]', 'bg-[#0F4C75]/10'));
+    }
+    
+    // Refleksi Handler
+    async function handleRefleksi() {
+      const r1 = document.getElementById('refleksi1').value.trim();
+      const r2 = document.getElementById('refleksi2').value.trim();
+      const r3 = document.getElementById('refleksi3').value.trim();
+      
+      if (!r1 || !r2 || !r3) {
+        showToast('Lengkapi semua refleksi!');
+        return;
+      }
+      
+      const userData = allData.find(d => d.type === 'user' && d.username === currentUser.username);
+      if (userData && window.dataSdk) {
+        const result = await window.dataSdk.update({
+          ...userData,
+          reflection1: r1,
+          reflection2: r2,
+          reflection3: r3,
+          progress: 100
+        });
+        
+        if (result.isOk) {
+          showToast('Refleksi berhasil disimpan! 🎉');
+          showSlide('slide-dashboard-siswa');
+        } else {
+          showToast('Gagal menyimpan refleksi');
+        }
+      }
+    }
+    
+    // Add Student Handler
+    async function handleAddStudent() {
+      const username = document.getElementById('new-username').value.trim();
+      const name = document.getElementById('new-name').value.trim();
+      const password = document.getElementById('new-password').value.trim();
+      
+      if (!username || !name || !password) {
+        showToast('Lengkapi semua data!');
+        return;
+      }
+      
+      // Check if username exists
+      const exists = allData.some(d => d.type === 'user' && d.username === username);
+      if (exists) {
+        showToast('Username sudah digunakan!');
+        return;
+      }
+      
+      if (allData.length >= 999) {
+        showToast('Batas maksimal data tercapai!');
+        return;
+      }
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create({
+          type: 'user',
+          username: username,
+          password: password,
+          name: name,
+          role: 'siswa',
+          level: 1,
+          progress: 0,
+          hasAttended: false,
+          attendanceDate: '',
+          mood: '',
+          readyToLearn: '',
+          game1Score: null,
+          game2Score: null,
+          reflection1: '',
+          reflection2: '',
+          reflection3: ''
+        });
+        
+        if (result.isOk) {
+          showToast('Siswa berhasil ditambahkan!');
+          document.getElementById('modal-tambah-siswa').classList.add('hidden');
+          document.getElementById('new-username').value = '';
+          document.getElementById('new-name').value = '';
+          document.getElementById('new-password').value = '';
+        } else {
+          showToast('Gagal menambahkan siswa');
+        }
+      }
+    }
+    
+    // Event Listeners Setup
+    function setupEventListeners() {
+      // Login
+      document.getElementById('login-btn').addEventListener('click', handleLogin);
+      
+      // Logout
+      document.getElementById('logout-siswa').addEventListener('click', () => {
+        currentUser = null;
+        showSlide('slide-login');
+      });
+      document.getElementById('logout-guru').addEventListener('click', () => {
+        currentUser = null;
+        showSlide('slide-login');
+      });
+      
+      // Siswa Menu
+      document.getElementById('menu-presensi').addEventListener('click', () => showSlide('slide-presensi'));
+      
+      document.getElementById('menu-cptp').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-cptp').querySelector('.menu-btn').disabled) {
+          showSlide('slide-cptp');
+        }
+      });
+      
+      document.getElementById('menu-materi').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-materi').querySelector('.menu-btn').disabled) {
+          showSlide('slide-materi');
+        }
+      });
+      
+      document.getElementById('menu-lkpd').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-lkpd').querySelector('.menu-btn').disabled) {
+          showSlide('slide-lkpd');
+        }
+      });
+      
+      document.getElementById('menu-games').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-games').querySelector('.menu-btn').disabled) {
+          showSlide('slide-games');
+        }
+      });
+      
+      document.getElementById('menu-refleksi').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-refleksi').querySelector('.menu-btn').disabled) {
+          showSlide('slide-refleksi');
+        }
+      });
+      
+      document.getElementById('menu-pengembang').querySelector('.menu-btn').addEventListener('click', () => {
+        if (!document.getElementById('menu-pengembang').querySelector('.menu-btn').disabled) {
+          showSlide('slide-pengembang');
+        }
+      });
+      
+      // Back buttons
+      document.getElementById('back-from-presensi').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-materi').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-lkpd').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-cptp').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-games').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-game1').addEventListener('click', () => showSlide('slide-games'));
+      document.getElementById('back-from-game2').addEventListener('click', () => showSlide('slide-games'));
+      document.getElementById('back-from-refleksi').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      document.getElementById('back-from-pengembang').addEventListener('click', () => showSlide('slide-dashboard-siswa'));
+      
+      // Presensi
+      document.querySelectorAll('.mood-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('border-[#F08A5D]', 'bg-[#F08A5D]/10'));
+          btn.classList.add('border-[#F08A5D]', 'bg-[#F08A5D]/10');
+          selectedMood = btn.dataset.mood;
+          const moodText = { senang: '😊 Senang', biasa: '😐 Biasa', sedih: '😢 Sedih' };
+          document.getElementById('selected-mood').textContent = moodText[selectedMood];
+        });
+      });
+      
+      document.getElementById('submit-presensi').addEventListener('click', handlePresensi);
+      
+      // Guru Tabs
+      document.querySelectorAll('.guru-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.guru-tab').forEach(t => {
+            t.classList.remove('tab-active');
+            t.classList.add('tab-inactive');
+          });
+          tab.classList.remove('tab-inactive');
+          tab.classList.add('tab-active');
+          
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+          document.getElementById(`tab-${tab.dataset.tab}`).classList.remove('hidden');
+        });
+      });
+      
+      // Add student modal
+      document.getElementById('btn-tambah-siswa').addEventListener('click', () => {
+        document.getElementById('modal-tambah-siswa').classList.remove('hidden');
+      });
+      document.getElementById('cancel-tambah').addEventListener('click', () => {
+        document.getElementById('modal-tambah-siswa').classList.add('hidden');
+      });
+      document.getElementById('confirm-tambah').addEventListener('click', handleAddStudent);
+      
+      // Materi Tabs
+      document.querySelectorAll('.materi-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.materi-tab').forEach(t => {
+            t.classList.remove('tab-active');
+            t.classList.add('tab-inactive');
+          });
+          tab.classList.remove('tab-inactive');
+          tab.classList.add('tab-active');
+          
+          currentMateriTab = tab.dataset.tab;
+          
+          document.querySelectorAll('.materi-content').forEach(c => c.classList.add('hidden'));
+          document.getElementById(`materi-${tab.dataset.tab}`).classList.remove('hidden');
+          document.getElementById(`materi-${tab.dataset.tab}`).classList.add('slide-enter');
+        });
+      });
+      
+      // Download PDF button
+      document.getElementById('download-pdf-btn').addEventListener('click', () => {
+        const url = materiPdfUrls[currentMateriTab];
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }
+      });
+      
+      // Games
+      document.getElementById('start-game1').addEventListener('click', () => {
+        showSlide('slide-game1');
+        startGame1();
+      });
+      document.getElementById('start-game2').addEventListener('click', () => {
+        showSlide('slide-game2');
+        startGame2();
+      });
+      document.getElementById('game1-finish').addEventListener('click', () => showSlide('slide-games'));
+      document.getElementById('game2-finish').addEventListener('click', () => showSlide('slide-games'));
+      
+      // Refleksi
+      document.getElementById('submit-refleksi').addEventListener('click', handleRefleksi);
+      
+      // Set default date
+      document.getElementById('presensi-date').valueAsDate = new Date();
+    }
+    
+    // Initialize
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bd28a03a20291ae',t:'MTc2ODI4MjYxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
